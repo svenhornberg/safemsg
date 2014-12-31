@@ -17,7 +17,7 @@ class Mainpage(StackLayout):
 
 
     store = JsonStore('data.json')
-    store.put('email', email="fuubah@gmail.com")
+    store.put('email', email="")
     store.put('stmp', smtp="")
     store.put('imap', smtp="")
 
