@@ -1,0 +1,61 @@
+<Mainpage>:
+    Accordion:
+        orientation: 'vertical'
+        AccordionItem:
+            title: 'Email Einstellungen'
+            GridLayout:
+                row_force_default:True
+                row_default_height:40
+                cols: 2
+                padding: 10
+                spacing: 10
+                Label:
+                    text: 'Email'
+                    color: 1,1,1,1
+                Password:
+                    text: self.mail
+
+                Label:
+                    text: 'Passwort'
+                    color: 1,1,1,1
+                TextInput:
+                    password: True
+                    text:'default'
+
+                Label:
+                    text: 'SMTP'
+                    color: 1,1,1,1
+                TextInput:
+                    text:'default'
+
+                Label:
+                    text: 'IMAP'
+                    color: 1,1,1,1
+                TextInput:
+                    text:'default'
+
+                ClickMeButton:
+                    text: 'Einstellungen setzen'
+                    color: 1,1,1,1
+                    background_color: 1,1,1,.2
+                    on_press: self.test()
+
+
+        AccordionItem:
+            title: 'Kontakte'
+
+
+        AccordionItem:
+            title: 'RSA'
+            GridLayout:
+                row_force_default:True
+                row_default_height:40
+                cols: 2
+                padding: 10
+                spacing: 10
+
+                RsaButton:
+                    text: 'Keys erzeugen'
+                    color: 1,1,1,1
+                    background_color: 1,1,1,.2
+                    on_press: self.test()
