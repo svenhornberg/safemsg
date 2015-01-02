@@ -6,15 +6,16 @@ from kivy.core.window import Window
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.storage.jsonstore import JsonStore
+from kivy.properties import StringProperty
+
 
 import rsa
-
+import imaplib
+import email
 
 
 
 class Mainpage(StackLayout):
-
-
 
     store = JsonStore('data.json')
     store.put('email', email="")
@@ -22,33 +23,25 @@ class Mainpage(StackLayout):
     store.put('imap', smtp="")
 
 
-    pass
-
-class ClickMeButton(Button):
-    def test(self):
-        store = JsonStore('data.json')
-        print('email:', store.get('email')['email'])
-
-
-        pass
-
-class RsaButton(Button):
-    def test(self):
+    def genkeys(self):
         store = JsonStore('data.json')
         (pubkey, privkey) = rsa.newkeys(128)
 
         print('pub' + str(pubkey))
         print('priv' + str(privkey))
+
+        label_private = self.ids['label_private']
+        label_private.text = str(privkey)
+
+
         pass
 
 
-class Password(TextInput):
-    mail = "fet"
-
     pass
 
-class SafeMsgApp(App):
 
+class SafeMsgApp(App):
+    __version__ = "1.0"
     Window.clearcolor = (.2,.2,.2, 0)
 
     def build(self):

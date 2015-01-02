@@ -9,11 +9,12 @@
                 cols: 2
                 padding: 10
                 spacing: 10
+
                 Label:
                     text: 'Email'
                     color: 1,1,1,1
-                Password:
-                    text: self.mail
+                TextInput:
+                    text: ''
 
                 Label:
                     text: 'Passwort'
@@ -34,16 +35,61 @@
                 TextInput:
                     text:'default'
 
-                ClickMeButton:
-                    text: 'Einstellungen setzen'
-                    color: 1,1,1,1
-                    background_color: 1,1,1,.2
-                    on_press: self.test()
 
 
         AccordionItem:
             title: 'Kontakte'
+            GridLayout:
+                row_force_default:True
+                row_default_height:40
+                cols: 2
+                padding: 10
+                spacing: 10
+                Label:
+                    text: 'Email'
+                    color: 1,1,1,1
+                TextInput:
+                    text: ''
 
+                Label:
+                    text: 'Public V1'
+                    color: 1,1,1,1
+                TextInput:
+                    text:'default'
+
+                Label:
+                    text: 'Public V2'
+                    color: 1,1,1,1
+                TextInput:
+                    text:'default'
+
+                Button:
+                    text: 'anlegen'
+
+        AccordionItem:
+            title: 'Keys'
+            GridLayout:
+                row_force_default:True
+                row_default_height:40
+                cols: 2
+                padding: 10
+                spacing: 10
+                Label:
+                    id: label_private
+                    text: 'Private'
+                    color: 1,1,1,1
+                TextInput:
+                    text: ''
+
+                Label:
+                    text: 'Public'
+                    color: 1,1,1,1
+                TextInput:
+                    text:'default'
+
+                Button:
+                    text:'erzeuge key'
+                    on_press: root.genkeys()
 
         AccordionItem:
             title: 'RSA'
@@ -54,8 +100,3 @@
                 padding: 10
                 spacing: 10
 
-                RsaButton:
-                    text: 'Keys erzeugen'
-                    color: 1,1,1,1
-                    background_color: 1,1,1,.2
-                    on_press: self.test()
