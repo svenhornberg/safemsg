@@ -8,20 +8,21 @@ from kivy.uix.textinput import TextInput
 from kivy.storage.jsonstore import JsonStore
 from kivy.properties import StringProperty
 
-
-import rsa
-import imaplib
-import email
-
+from Crypto.PublicKey import RSA
 
 
 class Mainpage(StackLayout):
 
     store = JsonStore('data.json')
-    store.put('email', email="")
-    store.put('stmp', smtp="")
-    store.put('imap', smtp="")
 
+    def encrypt(self):
+
+
+
+        pass
+
+    def decrypt(self):
+        pass
 
     def genkeys(self):
         store = JsonStore('data.json')
@@ -30,8 +31,11 @@ class Mainpage(StackLayout):
         print('pub' + str(pubkey))
         print('priv' + str(privkey))
 
-        label_private = self.ids['label_private']
-        label_private.text = str(privkey)
+        input_private = self.ids['input_private']
+        input_private.text = str(privkey)
+
+        input_public = self.ids['input_public']
+        input_public.text = str(pubkey)
 
 
         pass
@@ -41,7 +45,7 @@ class Mainpage(StackLayout):
 
 
 class SafeMsgApp(App):
-    __version__ = "1.0"
+
     Window.clearcolor = (.2,.2,.2, 0)
 
     def build(self):

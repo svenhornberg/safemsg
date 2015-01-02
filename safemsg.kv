@@ -1,41 +1,6 @@
 <Mainpage>:
     Accordion:
         orientation: 'vertical'
-        AccordionItem:
-            title: 'Email Einstellungen'
-            GridLayout:
-                row_force_default:True
-                row_default_height:40
-                cols: 2
-                padding: 10
-                spacing: 10
-
-                Label:
-                    text: 'Email'
-                    color: 1,1,1,1
-                TextInput:
-                    text: ''
-
-                Label:
-                    text: 'Passwort'
-                    color: 1,1,1,1
-                TextInput:
-                    password: True
-                    text:'default'
-
-                Label:
-                    text: 'SMTP'
-                    color: 1,1,1,1
-                TextInput:
-                    text:'default'
-
-                Label:
-                    text: 'IMAP'
-                    color: 1,1,1,1
-                TextInput:
-                    text:'default'
-
-
 
         AccordionItem:
             title: 'Kontakte'
@@ -68,24 +33,29 @@
 
         AccordionItem:
             title: 'Keys'
-            GridLayout:
-                row_force_default:True
-                row_default_height:40
-                cols: 2
-                padding: 10
-                spacing: 10
-                Label:
-                    id: label_private
-                    text: 'Private'
-                    color: 1,1,1,1
-                TextInput:
-                    text: ''
+            BoxLayout:
+                orientation: 'vertical'
+                GridLayout:
+                    row_force_default:True
+                    row_default_height:60
+                    cols: 2
+                    padding: 10
+                    spacing: 10
+                    Label:
+                        id: label_private
+                        text: 'Private'
+                        color: 1,1,1,1
+                    TextInput:
+                        id: input_private
+                        text: ''
 
-                Label:
-                    text: 'Public'
-                    color: 1,1,1,1
-                TextInput:
-                    text:'default'
+                    Label:
+                        id: label_public
+                        text: 'Public'
+                        color: 1,1,1,1
+                    TextInput:
+                        id: input_public
+                        text:'default'
 
                 Button:
                     text:'erzeuge key'
@@ -93,10 +63,43 @@
 
         AccordionItem:
             title: 'RSA'
-            GridLayout:
-                row_force_default:True
-                row_default_height:40
-                cols: 2
-                padding: 10
-                spacing: 10
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text: 'Eingabe'
 
+                TextInput:
+                    text: 'da'
+
+                Label:
+                    text: 'Ausgabe'
+
+                TextInput:
+                    text: 'da'
+
+
+                GridLayout:
+                    row_force_default:False
+                    row_default_height:30
+                    cols: 2
+                    padding: 10
+                    spacing: 10
+
+
+
+                    Button:
+                        text:'verschlüssel mit gewähltem pub'
+                        on_press: root.genkeys()
+
+                    Button:
+                        text:'verschlüssel mit geheimen priv'
+                        on_press: root.genkeys()
+
+
+                    Button:
+                        text:'entschlüssel mit gewähltem pub'
+                        on_press: root.genkeys()
+
+                    Button:
+                        text:'entschlüssel mit geheimen priv'
+                        on_press: root.genkeys()
