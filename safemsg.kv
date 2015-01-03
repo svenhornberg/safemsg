@@ -1,4 +1,5 @@
 <Mainpage>:
+
     Accordion:
         orientation: 'vertical'
 
@@ -23,63 +24,73 @@
 
                 Button:
                     text: 'Key hinterlegen'
+                    on_press: root.savepub()
 
         AccordionItem:
             title: 'Eigene Keys'
             BoxLayout:
-                row_force_default:True
-                row_default_height:60
-
                 orientation: 'vertical'
-                GridLayout:
-                    row_force_default:True
-                    row_default_height:60
-                    cols: 2
-                    padding: 10
-                    spacing: 10
-                    Label:
-                        id: label_private
-                        text: 'Private'
-                        color: 1,1,1,1
-                    TextInput:
-                        id: input_private
-                        text: ''
 
-                    Label:
-                        id: label_public
-                        text: 'Public'
-                        color: 1,1,1,1
-                    TextInput:
-                        id: input_public
-                        text:'default'
+                Label:
+                    id: label_public
+                    size_hint: (1,0.2)
+                    text: 'Public'
+                    color: 1,1,1,1
+                TextInput:
+                    id: input_public
+                    text:'default'
+                    multiline: True
+
+                Label:
+                    id: label_private
+                    size_hint: (1,0.2)
+                    text: 'Private'
+                    color: 1,1,1,1
+                TextInput:
+                    id: input_private
+                    text: ''
+                    multiline: True
+
 
                 Button:
+                    size_hint: (1,0.2)
+
                     text:'erzeuge key'
                     on_press: root.genkeys()
                 Button:
+                    size_hint: (1,0.2)
+
                     text:'PublicKey in Zwischenablage'
                     on_press: root.clipOwnpup()
+                Button:
+                    size_hint: (1,0.2)
+                    text: 'Keys hinterlegen'
+
 
         AccordionItem:
             title: 'RSA'
             BoxLayout:
+
                 orientation: 'vertical'
                 Label:
+                    size_hint: (1,0.2)
                     text: 'Eingabe'
 
                 TextInput:
+                    id: input_rsa
                     text: 'da'
 
                 Label:
+                    size_hint: (1,0.2)
                     text: 'Ausgabe'
 
                 TextInput:
+
+                    id: output_rsa
                     text: 'da'
 
 
                 GridLayout:
-                    row_force_default:False
-                    row_default_height:30
                     cols: 2
                     padding: 10
                     spacing: 10
@@ -101,4 +112,12 @@
 
                     Button:
                         text:'entschlüssel mit geheimen priv'
+                        on_press: root.genkeys()
+
+                    Button:
+                        text:'Eingabe aus Zwischenablage'
+                        on_press: root.genkeys()
+
+                    Button:
+                        text:'Ausgabe in die Zwischenablage'
                         on_press: root.genkeys()

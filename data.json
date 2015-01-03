@@ -1,1 +1,1 @@
-{"stmp": {"smtp": ""}, "email": {"email": ""}, "imap": {"smtp": ""}}
+{"stmp": {"smtp": ""}, "email": {"email": ""}, "pub": {"pub": "self.store.put('"}, "imap": {"smtp": ""}}

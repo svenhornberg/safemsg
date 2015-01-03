@@ -18,18 +18,24 @@ class Mainpage(StackLayout):
 
     store = JsonStore('data.json')
 
+    #AccordionItem 1
+
+    def savepub(self):
+
+        input_pubkey = self.ids['input_pubkey']
+        self.store.put('pub', pub=input_pubkey.text)
+        pass
+
     def clipPup(self):
 
         input_pubkey = self.ids['input_pubkey']
         input_pubkey.text = Clipboard.get('UTF8_STRING')
-
         pass
 
+    #AccordionItem 2
+
     def clipOwnpup(self):
-
         print Clipboard.put('Hallo','UTF8_STRING')
-
-
         pass
 
     def encrypt(self):
@@ -42,9 +48,8 @@ class Mainpage(StackLayout):
         pass
 
     def genkeys(self):
-        store = JsonStore('data.json')
 
-        key = RSA.generate(2048)
+        key = RSA.generate(1024)
 
         binPrivKey = key.exportKey('DER')
         binPubKey =  key.publickey().exportKey('DER')
@@ -79,7 +84,14 @@ class SafeMsgApp(App):
     Window.clearcolor = (.2,.2,.2, 0)
 
     def build(self):
-        return Mainpage()
+        main = Mainpage()
+        input_private = main.ids['input_private']
+        input_private.text = str('sss')
+
+        input_public = main.ids['input_public']
+        input_public.text = str(base64.b64encode('ssdsd'))
+
+        return main
 
 
 if __name__ == '__main__':
