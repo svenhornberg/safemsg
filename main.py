@@ -26,11 +26,8 @@ class Mainpage(StackLayout):
     def savepub(self):
 
         input_pubkey = self.ids['input_pubkey']
-
         test = input_pubkey.text
-
-        decode = base64.b64decode(test)
-        self.store.put(self.pub, val=decode)
+        self.store.put(self.pub, val=test)
         pass
 
     def clipPup(self):
@@ -55,10 +52,10 @@ class Mainpage(StackLayout):
 
 
         input_private = self.ids['input_private']
-        input_private.text = str(base64.b64encode(binPrivKey))
+        input_private.text = str(binPrivKey)
 
         input_public = self.ids['input_public']
-        input_public.text = str(base64.b64encode(binPubKey))
+        input_public.text = str(binPubKey)
 
         pass
 
@@ -78,14 +75,14 @@ class Mainpage(StackLayout):
 
             ownpriv = self.store.get(self.ownpriv)['val']
             input_private = self.ids['input_private']
-            input_private.text = str(base64.b64encode(ownpriv))
+            input_private.text = str(ownpriv)
             pass
 
         if self.store.exists('ownpub'):
 
             ownpub = self.store.get(self.ownpub)['val']
             input_public = self.ids['input_public']
-            input_public.text = str(base64.b64encode(ownpub))
+            input_public.text = str(ownpub)
             pass
 
 
@@ -202,14 +199,14 @@ class SafeMsgApp(App):
 
             ownpriv = main.store.get(main.ownpriv)['val']
             input_private = main.ids['input_private']
-            input_private.text = str(base64.b64encode(ownpriv))
+            input_private.text = str(ownpriv)
             pass
 
         if main.store.exists('ownpub'):
 
             ownpub = main.store.get(main.ownpub)['val']
             input_public = main.ids['input_public']
-            input_public.text = str(base64.b64encode(ownpub))
+            input_public.text = str(ownpub)
             pass
 
         return Mainpage()
