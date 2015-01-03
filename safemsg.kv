@@ -100,24 +100,21 @@
                     padding: 10
                     spacing: 10
 
-
+                    Button:
+                        text:'verschlüssel mit fremd pub'
+                        on_press: root.encryptpub()
 
                     Button:
-                        text:'verschlüssel mit gewähltem pub'
-                        on_press: root.genkeys()
+                        text:'entschlüssel mit fremd pub'
+                        on_press: root.decryptpub()
 
                     Button:
-                        text:'verschlüssel mit geheimen priv'
-                        on_press: root.genkeys()
-
-
-                    Button:
-                        text:'entschlüssel mit gewähltem pub'
-                        on_press: root.genkeys()
+                        text:'verschlüssel mit eigenen priv'
+                        on_press: root.encryptownpriv()
 
                     Button:
-                        text:'entschlüssel mit geheimen priv'
-                        on_press: root.genkeys()
+                        text:'entschlüssel mit eigenen priv'
+                        on_press: root.decryptownpriv()
 
                     Button:
                         text:'Eingabe aus Zwischenablage'

@@ -26,7 +26,11 @@ class Mainpage(StackLayout):
     def savepub(self):
 
         input_pubkey = self.ids['input_pubkey']
-        self.store.put(self.pub, val=input_pubkey.text)
+
+        test = input_pubkey.text
+
+        decode = base64.b64decode(test)
+        self.store.put(self.pub, val=decode)
         pass
 
     def clipPup(self):
@@ -90,7 +94,20 @@ class Mainpage(StackLayout):
     #AccordionItem 3
 
 
-    def encrypt(self):
+    def encryptpub(self):
+
+        output = self.ids['output_rsa']
+        input = self.ids['input_rsa']
+
+        if self.store.exists(self.pub):
+
+            pub = self.store.get(self.pub)['val']
+            pubKeyObj =  RSA.importKey(pub)
+
+            output.text = pubKeyObj.encrypt(input.text, 0)
+            pass
+        else:
+            output.text = 'Kein Pubkey hinterlegt'
 
         '''
         privKeyObj = RSA.importKey(binPrivKey)
@@ -103,13 +120,63 @@ class Mainpage(StackLayout):
         '''
         pass
 
-    def decrypt(self):
+    def decryptpub(self):
+
+        output = self.ids['output_rsa']
+        input = self.ids['input_rsa']
+
+        if self.store.exists(self.pub):
+
+            pub = self.store.get(self.pub)['val']
+            pubKeyObj =  RSA.importKey(pub)
+
+            output.text = pubKeyObj.decrypt(input.text)
+            pass
+        else:
+            output.text = 'Kein Pubkey hinterlegt'
+
+        pass
+
+    def decryptownpriv(self):
+
+        output = self.ids['output_rsa']
+        input = self.ids['input_rsa']
+
+        if self.store.exists(self.ownpriv):
+
+            key = self.store.get(self.ownpriv)['val']
+            keyObj = RSA.importKey(key)
+
+            output.text = keyObj.decrypt(input.text)
+            pass
+        else:
+            output.text = 'Kein Privkey hinterlegt'
+
+
+        pass
+
+    def encryptownpriv(self):
+
+        output = self.ids['output_rsa']
+        input = self.ids['input_rsa']
+
+        if self.store.exists(self.ownpriv):
+
+            key = self.store.get(self.ownpriv)['val']
+            keyObj = RSA.importKey(key)
+
+            output.text = keyObj.encrypt(input.text, 0)
+            pass
+        else:
+            output.text = 'Kein Privkey hinterlegt'
+
+
         pass
 
     def inputfromclip(self):
 
-        input_pubkey = self.ids['input_rsa']
-        input_pubkey.text = Clipboard.get('UTF8_STRING')
+        input = self.ids['input_rsa']
+        input.text = Clipboard.get('UTF8_STRING')
 
         pass
 

@@ -57,3 +57,5 @@ target/
 .buildozer
 bin/
 
+data.json
+
