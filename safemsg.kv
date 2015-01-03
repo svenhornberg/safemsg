@@ -38,7 +38,6 @@
                     color: 1,1,1,1
                 TextInput:
                     id: input_public
-                    text:'default'
                     multiline: True
 
                 Label:
@@ -48,14 +47,13 @@
                     color: 1,1,1,1
                 TextInput:
                     id: input_private
-                    text: ''
                     multiline: True
 
 
                 Button:
                     size_hint: (1,0.2)
 
-                    text:'erzeuge key'
+                    text:'Erzeuge Keys'
                     on_press: root.genkeys()
                 Button:
                     size_hint: (1,0.2)
@@ -64,7 +62,14 @@
                     on_press: root.clipOwnpup()
                 Button:
                     size_hint: (1,0.2)
+                    text: 'Keys laden'
+                    on_press: root.loadownkeys()
+
+                Button:
+                    size_hint: (1,0.2)
                     text: 'Keys hinterlegen'
+                    on_press: root.safeownkeys()
+
 
 
         AccordionItem:
@@ -78,7 +83,7 @@
 
                 TextInput:
                     id: input_rsa
-                    text: 'da'
+                    text: ''
 
                 Label:
                     size_hint: (1,0.2)
@@ -87,7 +92,7 @@
                 TextInput:
 
                     id: output_rsa
-                    text: 'da'
+                    text: ''
 
 
                 GridLayout:
@@ -116,8 +121,8 @@
 
                     Button:
                         text:'Eingabe aus Zwischenablage'
-                        on_press: root.genkeys()
+                        on_press: root.inputfromclip()
 
                     Button:
                         text:'Ausgabe in die Zwischenablage'
-                        on_press: root.genkeys()
+                        on_press: root.cliptooutput()

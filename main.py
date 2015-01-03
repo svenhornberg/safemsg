@@ -17,13 +17,16 @@ import base64
 class Mainpage(StackLayout):
 
     store = JsonStore('data.json')
+    pub = 'pub'
+    ownpub = 'ownpub'
+    ownpriv = 'ownpriv'
 
     #AccordionItem 1
 
     def savepub(self):
 
         input_pubkey = self.ids['input_pubkey']
-        self.store.put('pub', pub=input_pubkey.text)
+        self.store.put(self.pub, val=input_pubkey.text)
         pass
 
     def clipPup(self):
@@ -35,16 +38,8 @@ class Mainpage(StackLayout):
     #AccordionItem 2
 
     def clipOwnpup(self):
-        print Clipboard.put('Hallo','UTF8_STRING')
-        pass
-
-    def encrypt(self):
-
-
-
-        pass
-
-    def decrypt(self):
+        input_public = self.ids['input_public']
+        Clipboard.put(input_public.text,'UTF8_STRING')
         pass
 
     def genkeys(self):
@@ -54,17 +49,6 @@ class Mainpage(StackLayout):
         binPrivKey = key.exportKey('DER')
         binPubKey =  key.publickey().exportKey('DER')
 
-        privKeyObj = RSA.importKey(binPrivKey)
-        pubKeyObj =  RSA.importKey(binPubKey)
-
-        msg = "attack at dawn"
-        emsg = key.encrypt(msg, 0)
-        dmsg = privKeyObj.decrypt(emsg)
-
-        print(emsg)
-        print(dmsg)
-
-        print(base64.b64encode(binPrivKey))
 
         input_private = self.ids['input_private']
         input_private.text = str(base64.b64encode(binPrivKey))
@@ -72,6 +56,67 @@ class Mainpage(StackLayout):
         input_public = self.ids['input_public']
         input_public.text = str(base64.b64encode(binPubKey))
 
+        pass
+
+    def safeownkeys(self):
+
+        input_private = self.ids['input_private']
+        self.store.put(self.ownpriv, val=input_private.text)
+
+        input_public = self.ids['input_public']
+        self.store.put(self.ownpub, val=input_public.text)
+
+        pass
+
+    def loadownkeys(self):
+
+        if self.store.exists(self.ownpriv):
+
+            ownpriv = self.store.get(self.ownpriv)['val']
+            input_private = self.ids['input_private']
+            input_private.text = str(base64.b64encode(ownpriv))
+            pass
+
+        if self.store.exists('ownpub'):
+
+            ownpub = self.store.get(self.ownpub)['val']
+            input_public = self.ids['input_public']
+            input_public.text = str(base64.b64encode(ownpub))
+            pass
+
+
+        pass
+
+    #AccordionItem 3
+
+
+    def encrypt(self):
+
+        '''
+        privKeyObj = RSA.importKey(binPrivKey)
+        pubKeyObj =  RSA.importKey(binPubKey)
+
+        msg = "attack at dawn"
+        emsg = key.encrypt(msg, 0)
+        dmsg = privKeyObj.decrypt(emsg)
+
+        '''
+        pass
+
+    def decrypt(self):
+        pass
+
+    def inputfromclip(self):
+
+        input_pubkey = self.ids['input_rsa']
+        input_pubkey.text = Clipboard.get('UTF8_STRING')
+
+        pass
+
+    def cliptooutput(self):
+
+        input_public = self.ids['output_rsa']
+        Clipboard.put(input_public.text,'UTF8_STRING')
 
         pass
 
@@ -85,13 +130,22 @@ class SafeMsgApp(App):
 
     def build(self):
         main = Mainpage()
-        input_private = main.ids['input_private']
-        input_private.text = str('sss')
 
-        input_public = main.ids['input_public']
-        input_public.text = str(base64.b64encode('ssdsd'))
+        if main.store.exists(main.ownpriv):
 
-        return main
+            ownpriv = main.store.get(main.ownpriv)['val']
+            input_private = main.ids['input_private']
+            input_private.text = str(base64.b64encode(ownpriv))
+            pass
+
+        if main.store.exists('ownpub'):
+
+            ownpub = main.store.get(main.ownpub)['val']
+            input_public = main.ids['input_public']
+            input_public.text = str(base64.b64encode(ownpub))
+            pass
+
+        return Mainpage()
 
 
 if __name__ == '__main__':
