@@ -3,7 +3,7 @@
         orientation: 'vertical'
 
         AccordionItem:
-            title: 'Kontakte'
+            title: 'Fremder Key'
             GridLayout:
                 row_force_default:True
                 row_default_height:40
@@ -11,29 +11,25 @@
                 padding: 10
                 spacing: 10
                 Label:
-                    text: 'Email'
+                    text: 'Public Key'
                     color: 1,1,1,1
                 TextInput:
+                    id: input_pubkey
                     text: ''
 
-                Label:
-                    text: 'Public V1'
-                    color: 1,1,1,1
-                TextInput:
-                    text:'default'
-
-                Label:
-                    text: 'Public V2'
-                    color: 1,1,1,1
-                TextInput:
-                    text:'default'
+                Button:
+                    text: 'Pubkey aus Zwischenablage'
+                    on_press: root.clipPup()
 
                 Button:
-                    text: 'anlegen'
+                    text: 'Key hinterlegen'
 
         AccordionItem:
-            title: 'Keys'
+            title: 'Eigene Keys'
             BoxLayout:
+                row_force_default:True
+                row_default_height:60
+
                 orientation: 'vertical'
                 GridLayout:
                     row_force_default:True
@@ -60,6 +56,9 @@
                 Button:
                     text:'erzeuge key'
                     on_press: root.genkeys()
+                Button:
+                    text:'PublicKey in Zwischenablage'
+                    on_press: root.clipOwnpup()
 
         AccordionItem:
             title: 'RSA'
