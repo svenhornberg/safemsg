@@ -1,18 +1,12 @@
-from base64 import b64decode
-from Crypto.Cipher import PKCS1_OAEP
 from kivy.app import App
 from kivy.uix.stacklayout import StackLayout
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
-from kivy.uix.button import Button
-from kivy.uix.textinput import TextInput
 from kivy.storage.jsonstore import JsonStore
-from kivy.properties import StringProperty
 from kivy.core.clipboard import Clipboard
 
 from Crypto.PublicKey import RSA
-import base64
+import myrsa
+
 
 class Mainpage(StackLayout):
 
@@ -45,17 +39,15 @@ class Mainpage(StackLayout):
 
     def genkeys(self):
 
-        key = RSA.generate(1024)
 
-        binPrivKey = key.exportKey('DER')
-        binPubKey =  key.publickey().exportKey('DER')
-
+        privkey =7
+        pubKey = 17
 
         input_private = self.ids['input_private']
-        input_private.text = str(binPrivKey)
+        input_private.text = str(privkey)
 
         input_public = self.ids['input_public']
-        input_public.text = str(binPubKey)
+        input_public.text = str(pubKey)
 
         pass
 
@@ -99,22 +91,15 @@ class Mainpage(StackLayout):
         if self.store.exists(self.pub):
 
             pub = self.store.get(self.pub)['val']
-            pubKeyObj =  RSA.importKey(pub)
+            pubKeyObj =  RSA.importKey(pub.strip().decode('base64'))
 
+            en =  pubKeyObj.encrypt(input.text, 0)
             output.text = pubKeyObj.encrypt(input.text, 0)
             pass
         else:
             output.text = 'Kein Pubkey hinterlegt'
 
-        '''
-        privKeyObj = RSA.importKey(binPrivKey)
-        pubKeyObj =  RSA.importKey(binPubKey)
 
-        msg = "attack at dawn"
-        emsg = key.encrypt(msg, 0)
-        dmsg = privKeyObj.decrypt(emsg)
-
-        '''
         pass
 
     def decryptpub(self):
@@ -125,7 +110,7 @@ class Mainpage(StackLayout):
         if self.store.exists(self.pub):
 
             pub = self.store.get(self.pub)['val']
-            pubKeyObj =  RSA.importKey(pub)
+            pubKeyObj =  RSA.importKey(pub.strip().decode('base64'))
 
             output.text = pubKeyObj.decrypt(input.text)
             pass
@@ -142,7 +127,7 @@ class Mainpage(StackLayout):
         if self.store.exists(self.ownpriv):
 
             key = self.store.get(self.ownpriv)['val']
-            keyObj = RSA.importKey(key)
+            keyObj = RSA.importKey(key.strip().decode('base64'))
 
             output.text = keyObj.decrypt(input.text)
             pass
@@ -160,7 +145,7 @@ class Mainpage(StackLayout):
         if self.store.exists(self.ownpriv):
 
             key = self.store.get(self.ownpriv)['val']
-            keyObj = RSA.importKey(key)
+            keyObj = RSA.importKey(key.strip().decode('base64'))
 
             output.text = keyObj.encrypt(input.text, 0)
             pass
@@ -186,6 +171,39 @@ class Mainpage(StackLayout):
 
 
     pass
+
+    def encode(self, publickey, message):
+
+        #each char in message rsa  + liste
+        #-> liste return
+
+        n, e = publickey
+        values = []
+
+        for chrx in message:
+
+            oVal = ord(chrx)
+            encrypted_num = (oVal ** e) % n
+            values.append(encrypted_num)
+            pass
+
+        return  ','.join(map(str, values))
+
+
+    def decode(self, privatekey, message):
+
+        values = message.split()
+        n, d = privatekey
+        message = ""
+
+        for chrx in values:
+
+            oVal = ord(chrx)
+            decrypted_num = oVal ** d % n
+            message += chr(decrypted_num)
+            pass
+
+        return values
 
 
 class SafeMsgApp(App):
