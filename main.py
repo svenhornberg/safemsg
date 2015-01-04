@@ -219,11 +219,15 @@ class Mainpage(StackLayout):
         n, d = privatekey
         message = ""
 
-        for chrx in values:
-            number = int(chrx)
-            decrypted_num = number ** d % n
-            message += chr(decrypted_num)
-            pass
+        try:
+
+            for chrx in values:
+                number = int(chrx)
+                decrypted_num = number ** d % n
+                message += chr(decrypted_num)
+                pass
+        except ValueError:
+            message = "Nachricht nicht valide"
 
         return message
 
