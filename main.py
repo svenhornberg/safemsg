@@ -6,6 +6,7 @@ from kivy.core.clipboard import Clipboard
 
 from Crypto.PublicKey import RSA
 import myrsa
+import primenum
 
 
 class Mainpage(StackLayout):
@@ -39,15 +40,16 @@ class Mainpage(StackLayout):
 
     def genkeys(self):
 
+        (privkey, pubKey) = primenum.getTwoRandomPrimes()
 
-        privkey =7
-        pubKey = 17
+        (publickey, privatekey) = myrsa.generateRSAKeys(privkey, pubKey)
+
 
         input_private = self.ids['input_private']
-        input_private.text = str(privkey)
+        input_private.text = str(publickey)
 
         input_public = self.ids['input_public']
-        input_public.text = str(pubKey)
+        input_public.text = str(privatekey)
 
         pass
 
@@ -91,10 +93,14 @@ class Mainpage(StackLayout):
         if self.store.exists(self.pub):
 
             pub = self.store.get(self.pub)['val']
-            pubKeyObj =  RSA.importKey(pub.strip().decode('base64'))
+            values = pub.strip().replace(")", "").replace("(", "").split(',')
+            pubKey = []
+            for x in values:
+                pubKey.append(int(x))
+                pass
 
-            en =  pubKeyObj.encrypt(input.text, 0)
-            output.text = pubKeyObj.encrypt(input.text, 0)
+            encode = self.encode(pubKey, input.text)
+            output.text = encode
             pass
         else:
             output.text = 'Kein Pubkey hinterlegt'
@@ -110,9 +116,15 @@ class Mainpage(StackLayout):
         if self.store.exists(self.pub):
 
             pub = self.store.get(self.pub)['val']
-            pubKeyObj =  RSA.importKey(pub.strip().decode('base64'))
+            values = pub.strip().replace(")", "").replace("(", "").split(',')
+            pubKey = []
+            for x in values:
+                pubKey.append(int(x))
+                pass
 
-            output.text = pubKeyObj.decrypt(input.text)
+            decodeval = self.decode(pubKey, input.text)
+            output.text = decodeval
+
             pass
         else:
             output.text = 'Kein Pubkey hinterlegt'
@@ -127,10 +139,16 @@ class Mainpage(StackLayout):
         if self.store.exists(self.ownpriv):
 
             key = self.store.get(self.ownpriv)['val']
-            keyObj = RSA.importKey(key.strip().decode('base64'))
 
-            output.text = keyObj.decrypt(input.text)
-            pass
+            values = key.strip().replace(")", "").replace("(", "").split(',')
+            pubKey = []
+            for x in values:
+                pubKey.append(int(x))
+                pass
+
+            decodeval = self.decode(pubKey, input.text)
+            output.text = decodeval
+
         else:
             output.text = 'Kein Privkey hinterlegt'
 
@@ -145,9 +163,14 @@ class Mainpage(StackLayout):
         if self.store.exists(self.ownpriv):
 
             key = self.store.get(self.ownpriv)['val']
-            keyObj = RSA.importKey(key.strip().decode('base64'))
+            values = key.strip().replace(")", "").replace("(", "").split(',')
+            pubKey = []
+            for x in values:
+                pubKey.append(int(x))
+                pass
 
-            output.text = keyObj.encrypt(input.text, 0)
+            encode = self.encode(pubKey, input.text)
+            output.text = encode
             pass
         else:
             output.text = 'Kein Privkey hinterlegt'
@@ -192,18 +215,17 @@ class Mainpage(StackLayout):
 
     def decode(self, privatekey, message):
 
-        values = message.split()
+        values = message.split(',')
         n, d = privatekey
         message = ""
 
         for chrx in values:
-
-            oVal = ord(chrx)
-            decrypted_num = oVal ** d % n
+            number = int(chrx)
+            decrypted_num = number ** d % n
             message += chr(decrypted_num)
             pass
 
-        return values
+        return message
 
 
 class SafeMsgApp(App):
